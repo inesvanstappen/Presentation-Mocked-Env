@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>JWorks - A base template</title>
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/ordina.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <script src="js/head.min.js"></script>
+    <!--Add support for earlier versions of Internet Explorer -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1>Setting up mocked environment</h1>
+                <img src="img/jworks-logo.png" style="vertical-align: bottom;" width="22.5%"/>
+            </section>
+
+            <section>
+                <h2>Hi, my name is Ines.</h2>
+                <p>
+                    Front-end Developer<br />
+                    Ordina Belgium<br />
+                    @InesVanStappen<br />
+                    https://github.com/inesvanstappen
+                </p>
+            </section>
+
+            <section>
+                <h2>Index</h2>
+                <ul>
+                    <li>Why?</li>
+                    <li>Setup</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Why?</h2>
+                <ul>
+                    <li>Testing</li>
+                    <li>Local development</li>
+                    <small>Vpn down, on the road, ...</small>
+                </ul>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Set-up</h2>
+                    <ul>
+                      <li>Mock service</li>
+                      <li>Spies</li>
+                      <li>Import in module</li>
+                    </ul>
+                </section>
+              </section>
+              <section>
+                <section>
+                    <h2>Mock services</h2>
+                    <p>Purpose: creating a fake service (without logic) that is gives back fake data.</p>
+                </section>
+                <section>
+                    <h2>object.service.mock.ts</h2>
+                    <h5>Pretty Code</h5>
+                    <pre><code data-trim contenteditable>
+export const MockBookService = {
+  getBooks: () => {
+    let books: Book[];
+    books = [{
+      id: '1',
+      author: 'J.K. Rowling',
+      name: 'Harry Potter en de Steen der Wijzen',
+      imageUrl: 'https://images.gr-assets.com/books/1216305543l/1033918.jpg',
+      description: 'Harry Potter is een...'
+    }];
+    return of(books);
+  }
+};
+    					      </code></pre>
+                </section>
+              </section>
+              <section>
+                <section>
+                  <h2>Stubs</h2>
+                  <h5>What are they?</h5>
+                  <blockquote cite="https://gaboesquivel.com/blog/2014/unit-testing-mocks-stubs-and-spies/">
+                    Test stubs are fake objects with pre-programmed behavior ( Simulation of behaviour from other units ), Most of times they are simply returning fixed values. They are typically used for one of two reasons:
+                    <ul>
+                      <li>To avoid some inconvenient interface - for instance to avoid making actual requests to a server from tests.</li>
+                      <li>To feed the system with known data, forcing a specific code path.</li>
+                    </ul>
+                  </blockquote>
+                </section>
+                <section>
+                  <h2>Spies</h2>
+                  <h5>What are they?</h5>
+                  <blockquote cite="https://alligator.io/angular/testing-with-spies/">
+                    Jasmine spies are used to track or stub functions or methods. Spies are an easy way to check if a function was called or to provide a custom return value. We can use spies to test components that depend on a service and avoid actually calling the service’s methods to get a value.
+                  </blockquote>
+                </section>
+                <section>
+                  <h2>And now in code</h2>
+                  <h5>books.service.spy.ts</h5>
+                  <pre><code data-trim contenteditable>
+export const BookServiceSpy = {
+  getBooks: jasmine.createSpy('getBooks', MockBookService.getBooks).and.callThrough(),
+  //other spy methods
+};
+                  </code></pre>
+                </section>
+              </section>
+              <section>
+                <section>
+                  <h2>Let's set up the environment!</h2>
+                </section>
+                <section>
+                  <h2>environment/environment.mock.ts</h2>
+                  <pre><code data-trim contenteditable>
+export const environment = {
+  production: false,
+  mocked: true,
+};
+                  </code></pre>
+                  <p style="color: red; font-weight: bold">Important always import environment/environment.ts</p>
+                </section>
+                <section>
+                  <h2>services/index.ts</h2>
+                  <pre><code data-trim contenteditable>
+export const EnvBookService =
+  environment.mocked ?
+  { provide: BookService, useValue: MockBookService } :
+  BookService;
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>app.module.ts</h2>
+                  <pre><code data-trim contenteditable>
+@NgModule({
+declarations: [
+  ...
+],
+imports: [
+  ...
+],
+providers: [
+  EnvBookService,
+  ...
+],
+bootstrap: [AppComponent]
+})
+export class AppModule { }
+                  </code></pre>
+                </section>
+            </section>
+            <section>
+              <h2>Good to know</h2>
+              <h5>TSConfig</h5>
+              <pre><code>
+                {
+  "extends": ...,
+  "compilerOptions": {
+    ...
+  },
+  "exclude": [
+    ...,
+    "**/*.spec.ts",
+    "**/*.mock.ts",
+    "**/*.spy.ts"
+  ]
+}
+              </pre></code>
+            </section>
+            <!-- **********
+                DO NOT REMOVE
+            ********** -->
+            <section style="text-align: left;">
+                <h2>Thanks for watching!</h2>
+                <p class="fragment">Now kick some ass!</p>
+            </section>
+
+            <section style="text-align: left;" data-background="img/jworks-wallpaper-3.jpg"></section>
+        </div>
+    </div>
+    <script src="js/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            transition: 'convex',
+            dependencies: [
+                // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+                {
+                    src: 'lib/js/classList.js',
+                    condition: function () {
+                        return !document.body.classList;
+                    }
+                },
+                // Interpret Markdown in <section> elements
+                {
+                    src: 'plugin/markdown/marked.js',
+                    condition: function() {
+                        return !!document.querySelector( '[data-markdown]' );
+                    }
+                },
+                {
+                    src: 'plugin/markdown/markdown.js',
+                    condition: function() {
+                        return !!document.querySelector( '[data-markdown]' );
+                    }
+                },
+                // Syntax highlight for <code> elements
+                {
+                    src: 'plugin/highlight/highlight.js',
+                    async: true,
+                    callback: function () {
+                        hljs.initHighlightingOnLoad();
+                    }
+                },
+                // Zoom in and out with Alt+click
+                {
+                    src: 'plugin/zoom-js/zoom.js',
+                    async: true
+                },
+                // Speaker notes
+                {
+                    src: 'plugin/notes/notes.js',
+                    async: true
+                }
+        ]
+        });
+    </script>
+</body>
+
+</html>
