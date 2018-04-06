@@ -139,6 +139,16 @@ export const environment = {
                   <p style="color: red; font-weight: bold">Important always import environment/environment.ts</p>
                 </section>
                 <section>
+                  <h2>.angular-cli.json</h2>
+                  <pre><code>
+"environments": {
+  "dev": "environments/environment.ts",
+  "prod": "environments/environment.prod.ts",
+  "mocked": "environments/environment.mocked.ts"
+}
+                  </code></pre>
+                </section>
+                <section>
                   <h2>services/index.ts</h2>
                   <pre><code data-trim contenteditable>
 export const EnvBookService =
