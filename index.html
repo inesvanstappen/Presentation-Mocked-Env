@@ -144,10 +144,24 @@ export const environment = {
 "environments": {
   "dev": "environments/environment.ts",
   "prod": "environments/environment.prod.ts",
-  "mocked": "environments/environment.mocked.ts"
+  "mocked": "environments/environment.mocked.ts",
+  "test": "environments/environment.test.ts"
 }
                   </code></pre>
                   <p>Run with ng serve -e=mocked</p>
+                </section>
+                <section>
+                  <h2>package.json</h2>
+                  <pre><code>
+"scripts": {
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build",
+  "test": "ng test -e=test",
+  "lint": "ng lint",
+  "e2e": "ng e2e",
+},
+                  </code></pres>
                 </section>
                 <section>
                   <h2>services/index.ts</h2>
