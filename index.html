@@ -28,7 +28,7 @@
     <div class="reveal">
         <div class="slides">
             <section>
-                <h1>Setting up mocked environment</h1>
+                <h1>Best practice: </br> mock environment</h1>
                 <img src="img/jworks-logo.png" style="vertical-align: bottom;" width="22.5%"/>
             </section>
 
@@ -67,6 +67,10 @@
                       <li>Spies</li>
                       <li>Import in module</li>
                     </ul>
+                </section>
+                <section>
+                  <h2>Sidenote</h2>
+                  <p>Angular-cli used for setting up the entire workshop </br> (code in slides + practice project).</p>
                 </section>
               </section>
               <section>
@@ -196,7 +200,7 @@ export class AppModule { }
               <h2>Good to know</h2>
               <h5>TSConfig</h5>
               <pre><code>
-                {
+{
   "extends": ...,
   "compilerOptions": {
     ...
@@ -209,6 +213,7 @@ export class AppModule { }
   ]
 }
               </pre></code>
+              <small>Spy is for testing purpose only so you don't need to compile them with your application.</small>
             </section>
             <!-- **********
                 DO NOT REMOVE
