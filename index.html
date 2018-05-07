@@ -86,20 +86,27 @@
           <h2>object.service.mock.ts</h2>
           <h5>Pretty Code</h5>
           <pre><code data-trim contenteditable>
-export const MockBookService = {
-  getBooks: () => {
-    let books: Book[];
-    books = [{
+export const MockReceiverService = {
+  getReceivers: () => {
+    const receivers: Receiver[] = [{
       id: '1',
-      author: 'J.K. Rowling',
-      name: 'Harry Potter en de Steen der Wijzen',
-      imageUrl: 'https://images.gr-assets.com/books/1216305543l/1033918.jpg',
-      description: 'Harry Potter is een...'
+      numberOfBeacons: 3,
+      lat: 40,
+      long: 45,
+    }, {
+      id: '2',
+      numberOfBeacons: 7,
+      lat: -59,
+      long: 62,
+    }, {
+      id: '3',
+      numberOfBeacons: 2,
+      lat: -59,
+      long: -66,
     }];
-    return of(books);
+    return of(receivers);
   }
-};
-    					      </code></pre>
+}</code></pre>
         </section>
       </section>
       <section>
@@ -135,6 +142,7 @@ export const MockBookService = {
 export const environment = {
   production: false,
   mocked: true,
+  url: '',
 };
                   </code></pre>
           <p style="color: red; font-weight: bold">Important always import environment/environment.ts</p>
@@ -182,9 +190,9 @@ export const environment = {
         <section>
           <h2>services/index.ts</h2>
           <pre><code data-trim contenteditable>
-export const EnvBookService =
+export const EnvReceiverService =
   environment.mocked ?
-  { provide: BookService, useValue: MockBookService } :
+  { provide: ReceiverService, useValue: MockReceiverService } :
   BookService;
                   </code></pre>
         </section>
@@ -213,15 +221,15 @@ export class AppModule { }
           <h2>Testing</h2>
         </section>
         <section>
-          <h2>books.service.spy.ts</h2>
+          <h2>object.service.spy.ts</h2>
           <pre><code data-trim contenteditable>
-export const BookServiceSpy = {
-  getBooks: jasmine.createSpy('getBooks', MockBookService.getBooks).and.callThrough(),
+export const ReceiverServiceSpy = {
+  getReceivers: jasmine.createSpy('getReceivers', MockReceiverService.getReceivers).and.callThrough(),
   //other spy methods
 };</code></pre>
         </section>
         <section>
-          <h2>receiver.sandbox.spec.ts</h2>
+          <h2>object.sandbox.spec.ts</h2>
           <pre><code>
 TestBed.configureTestingModule({
   imports: [
