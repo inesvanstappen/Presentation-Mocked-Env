@@ -60,78 +60,14 @@
       </section>
 
       <section>
-        <section>
-          <h2>Set-up</h2>
-          <ul>
-            <li>Mock service</li>
-            <li>Spies</li>
-            <li>Import in module</li>
-          </ul>
-        </section>
-        <section>
-          <h2>Sidenote</h2>
-          <ul>
-            <li>Angular CLI v6</li>
-            <li>Angular v6</li>
-            <li>RxJS v6</li>
-          </ul>
-        </section>
+        <h2>Sidenote</h2>
+        <ul>
+          <li>Angular CLI v6</li>
+          <li>Angular v6</li>
+          <li>RxJS v6</li>
+        </ul>
       </section>
-      <section>
-        <section>
-          <h2>Mock services</h2>
-          <p>Purpose: creating a fake service (without logic) that is gives back fake data.</p>
-        </section>
-        <section>
-          <h2>object.service.mock.ts</h2>
-          <h5>Pretty Code</h5>
-          <pre><code data-trim contenteditable>
-export const MockReceiverService = {
-  getReceivers: () => {
-    const receivers: Receiver[] = [{
-      id: '1',
-      numberOfBeacons: 3,
-      lat: 40,
-      long: 45,
-    }, {
-      id: '2',
-      numberOfBeacons: 7,
-      lat: -59,
-      long: 62,
-    }, {
-      id: '3',
-      numberOfBeacons: 2,
-      lat: -59,
-      long: -66,
-    }];
-    return of(receivers);
-  }
-}</code></pre>
-        </section>
-      </section>
-      <section>
-        <section>
-          <h2>Stubs</h2>
-          <h5>What are they?</h5>
-          <blockquote cite="https://gaboesquivel.com/blog/2014/unit-testing-mocks-stubs-and-spies/">
-            Test stubs are fake objects with pre-programmed behavior ( Simulation of behaviour from other units ), Most of times they
-            are simply returning fixed values. They are typically used for one of two reasons:
-            <ul>
-              <li>To avoid some inconvenient interface - for instance to avoid making actual requests to a server from tests.</li>
-              <li>To feed the system with known data, forcing a specific code path.</li>
-            </ul>
-          </blockquote>
-        </section>
-        <section>
-          <h2>Spies</h2>
-          <h5>What are they?</h5>
-          <blockquote cite="https://alligator.io/angular/testing-with-spies/">
-            Jasmine spies are used to track or stub functions or methods. Spies are an easy way to check if a function was called or
-            to provide a custom return value. We can use spies to test components that depend on a service and avoid actually
-            calling the service’s methods to get a value.
-          </blockquote>
-        </section>
-      </section>
+
       <section>
         <section>
           <h2>Let's set up the environment!</h2>
@@ -166,65 +102,132 @@ export const environment = {
         "replace": "src/environments/environment.ts",
         "with": "src/environments/environment.mocked.ts"
       }
-    ]
-  }
+    ],
+    ...
+  },
 }</code></pre>
         </section>
         <section>
           <h2>angular.json</h2>
           <pre><code>
-  "serve": {
-    ...
-    "configurations": {
-      "production": {
-        "browserTarget": "temp:build:production"
-      },
-      "mocked": {
-        "browserTarget": "temp:build:mocked"
-      }
+"serve": {
+  ...
+  "configurations": {
+    "production": {
+      "browserTarget": "temp:build:production"
+    },
+    "mocked": {
+      "browserTarget": "temp:build:mocked"
     }
-  },  
-  </code></pre>
+  }
+},  
+
+          </code></pre>
           <p>Run with ng serve -c=mocked</p>
+        </section>
+      </section>
+
+      <section>
+        <h2>Exercises Time</h2>
+        <p>Set up the environment</p>
+      </section>
+
+      <section>
+        <section>
+          <h2>Mocking</h2>
+        </section>
+        <section>
+          <h2>Mock services</h2>
+          <p>Purpose: creating a fake service (without logic) that is gives back fake data.</p>
+        </section>
+        <section>
+          <h2>object.service.mock.ts</h2>
+          <h5>Pretty Code</h5>
+          <pre><code data-trim contenteditable>
+export const MockReceiverService = {
+  getReceivers: () => {
+    const receivers: Receiver[] = [{
+      id: '1',
+      numberOfBeacons: 3,
+      lat: 40,
+      long: 45,
+    }, {
+      id: '2',
+      numberOfBeacons: 7,
+      lat: -59,
+      long: 62,
+    }];
+    return of(receivers);
+  }
+}</code></pre>
         </section>
         <section>
           <h2>services/index.ts</h2>
           <pre><code data-trim contenteditable>
-export const EnvReceiverService =
-  environment.mocked ?
-  { provide: ReceiverService, useValue: MockReceiverService } :
-  BookService;
-                  </code></pre>
+  export const EnvReceiverService =
+    environment.mocked ?
+    { provide: ReceiverService, useValue: MockReceiverService } :
+    ReceiverService;
+                    </code></pre>
         </section>
         <section>
           <h2>app.module.ts</h2>
           <pre><code data-trim contenteditable>
 @NgModule({
-declarations: [
-  ...
-],
-imports: [
-  ...
-],
-providers: [
-  EnvBookService,
-  ...
-],
-bootstrap: [AppComponent]
+  declarations: [
+    ...
+  ],
+  imports: [
+    ...
+  ],
+  providers: [
+    EnvReceiverService,
+    ...
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
-                  </code></pre>
+                    </code></pre>
         </section>
       </section>
+
+      <section>
+        <h2>Exercises Time</h2>
+        <p>Set up the mock service</p>
+        <p>Import in app.component.ts</p>
+      </section>
+
       <section>
         <section>
           <h2>Testing</h2>
         </section>
         <section>
+          <h2>Stubs</h2>
+          <h5>What are they?</h5>
+          <blockquote cite="https://gaboesquivel.com/blog/2014/unit-testing-mocks-stubs-and-spies/">
+            Test stubs are fake objects with pre-programmed behavior ( Simulation of behaviour from other units ), Most of times they
+            are simply returning fixed values. They are typically used for one of two reasons:
+            <ul>
+              <li>To avoid some inconvenient interface - for instance to avoid making actual requests to a server from tests.</li>
+              <li>To feed the system with known data, forcing a specific code path.</li>
+            </ul>
+          </blockquote>
+        </section>
+        <section>
+          <h2>Spies</h2>
+          <h5>What are they?</h5>
+          <blockquote cite="https://alligator.io/angular/testing-with-spies/">
+            Jasmine spies are used to track or stub functions or methods. Spies are an easy way to check if a function was called or
+            to provide a custom return value. We can use spies to test components that depend on a service and avoid actually
+            calling the service’s methods to get a value.
+          </blockquote>
+        </section>
+        <section>
           <h2>object.service.spy.ts</h2>
           <pre><code data-trim contenteditable>
 export const ReceiverServiceSpy = {
-  getReceivers: jasmine.createSpy('getReceivers', MockReceiverService.getReceivers).and.callThrough(),
+  getReceivers: jasmine.createSpy('getReceivers', MockReceiverService.getReceivers)
+                        .and.callThrough(),
   //other spy methods
 };</code></pre>
         </section>
@@ -258,6 +261,15 @@ TestBed.configureTestingModule({
 ]</code></pre>
         </section>
       </section>
+
+      <section>
+          <h2>Exercises Time</h2>
+          <p>Set up the spy objects for the service</p>
+          <p>Use spy service in ReceiverSandbox</p>
+          <p>Make sure all 12 tests are working</p>
+        </section>
+
+
       <!-- **********
                 DO NOT REMOVE
             ********** -->
