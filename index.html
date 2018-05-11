@@ -82,6 +82,12 @@ export const environment = {
 };
                   </code></pre>
           <p style="color: red; font-weight: bold">Important always import environment/environment.ts</p>
+          <aside class="notes">
+            Make sure all the keys are all the same in the different Environment files.
+            If you want to make sure you always use the same keys, you can consider making a interface for environment files.
+            
+            If you want to import an environment file, always import the environment/environment.ts file.
+          </aside>
         </section>
         <section>
           <h2>angular.json</h2>
@@ -129,7 +135,7 @@ export const environment = {
 
       <section>
         <h2>Exercises Time</h2>
-        <p>Set up the environment</p>
+        <p>Set up the environment so that the command ng serve -c=mocked works</p>
       </section>
 
       <section>
@@ -141,7 +147,7 @@ export const environment = {
           <p>Purpose: creating a fake service (without logic) that is gives back fake data.</p>
         </section>
         <section>
-          <h2>object.service.mock.ts</h2>
+          <h2>receiver.service.mock.ts</h2>
           <h5>Pretty Code</h5>
           <pre><code data-trim contenteditable>
 export const MockReceiverService = {
@@ -159,6 +165,7 @@ export const MockReceiverService = {
     }];
     return of(receivers);
   }
+  // other mocked methods 
 }</code></pre>
         </section>
         <section>
@@ -168,7 +175,12 @@ export const MockReceiverService = {
     environment.mocked ?
     { provide: ReceiverService, useValue: MockReceiverService } :
     ReceiverService;
+  
+  // other exports of services
                     </code></pre>
+            <aside class="notes">
+              Now we create a barrel file. This index.ts file, which is the barrel file, will be used for importing all the services. 
+            </aside>
         </section>
         <section>
           <h2>app.module.ts</h2>
@@ -188,13 +200,16 @@ export const MockReceiverService = {
 })
 export class AppModule { }
                     </code></pre>
+            <aside class="notes">
+              Remove the original ReceiverService import and use the import using the barrel file from index.ts.          
+            </aside>
         </section>
       </section>
 
       <section>
         <h2>Exercises Time</h2>
         <p>Set up the mock service</p>
-        <p>Import in app.component.ts</p>
+        <p>Import in app.module.ts</p>
       </section>
 
       <section>
@@ -223,7 +238,7 @@ export class AppModule { }
           </blockquote>
         </section>
         <section>
-          <h2>object.service.spy.ts</h2>
+          <h2>receiver.service.spy.ts</h2>
           <pre><code data-trim contenteditable>
 export const ReceiverServiceSpy = {
   getReceivers: jasmine.createSpy('getReceivers', MockReceiverService.getReceivers)
@@ -232,7 +247,7 @@ export const ReceiverServiceSpy = {
 };</code></pre>
         </section>
         <section>
-          <h2>object.sandbox.spec.ts</h2>
+          <h2>receiver.sandbox.spec.ts</h2>
           <pre><code>
 TestBed.configureTestingModule({
   imports: [
@@ -243,6 +258,9 @@ TestBed.configureTestingModule({
   ]
 });
           </code></pre>
+          <aside class="notes">
+            Import everywhere were testing. App component,... 
+          </aside>
         </section>
         <section>
           <h2>tsconfig.app.json</h2>
