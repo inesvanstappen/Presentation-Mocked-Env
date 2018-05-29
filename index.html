@@ -70,6 +70,31 @@
 
       <section>
         <section>
+          <h2>The project: beacon-positioning</h2>
+          <p>https://github.com/ordina-jworks/beacon-positioning</p>
+        </section>
+        <section>
+          <img src="img/beacon-positioning-1.png">
+        </section>
+          
+        <section>
+          <img src="img/beacon-positioning-2.png">
+        </section>
+
+        <section>
+          <img src="img/diagram application.png">
+          <span></span>
+          <ul>
+            <li>Component only gets data and shows it. No data manipulation.</li>
+            <li>Sandbox is a facade between component and service.</li>
+            <li>Sandbox does the data manipulation and can store the data in state management tool.</li>
+            <li>Service only get data from source.</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
           <h2>Let's set up the environment!</h2>
         </section>
         <section>
@@ -85,7 +110,7 @@ export const environment = {
           <aside class="notes">
             Make sure all the keys are all the same in the different Environment files.
             If you want to make sure you always use the same keys, you can consider making a interface for environment files.
-            
+
             If you want to import an environment file, always import the environment/environment.ts file.
           </aside>
         </section>
@@ -126,7 +151,7 @@ export const environment = {
       "browserTarget": "temp:build:mocked"
     }
   }
-},  
+},
 
           </code></pre>
           <p>Run with ng serve -c=mocked</p>
@@ -136,6 +161,8 @@ export const environment = {
       <section>
         <h2>Exercises Time</h2>
         <p>Set up the environment so that the command ng serve -c=mocked works</p>
+        <img src="img/layout beacon positioning - step 1.png">
+        <small>Branch: workshop/step-1</small>
       </section>
 
       <section>
@@ -144,7 +171,7 @@ export const environment = {
         </section>
         <section>
           <h2>Mock services</h2>
-          <p>Purpose: creating a fake service (without logic) that is gives back fake data.</p>
+          <p>Purpose: creating a fake service (without logic) that gives back raw data.</p>
         </section>
         <section>
           <h2>receiver.service.mock.ts</h2>
@@ -165,7 +192,7 @@ export const MockReceiverService = {
     }];
     return of(receivers);
   }
-  // other mocked methods 
+  // other mocked methods
 }</code></pre>
         </section>
         <section>
@@ -175,15 +202,14 @@ export const MockReceiverService = {
     environment.mocked ?
     { provide: ReceiverService, useValue: MockReceiverService } :
     ReceiverService;
-  
+
   // other exports of services
                     </code></pre>
             <aside class="notes">
-              Now we create a barrel file. This index.ts file, which is the barrel file, will be used for importing all the services. 
+              Now we create a barrel file. This index.ts file, which is the barrel file, will be used for importing all the services.
             </aside>
         </section>
         <section>
-          <h2>app.module.ts</h2>
           <pre><code data-trim contenteditable>
 @NgModule({
   declarations: [
@@ -200,9 +226,67 @@ export const MockReceiverService = {
 })
 export class AppModule { }
                     </code></pre>
-            <aside class="notes">
-              Remove the original ReceiverService import and use the import using the barrel file from index.ts.          
-            </aside>
+        </section>
+
+        <section>
+          <h2>app.module.ts</h2>
+          <div style="text-align: left; float: left; width: 50%;">
+            <pre><code data-trim contenteditable>
+@NgModule({
+  declarations: [
+    ...
+  ],
+  imports: [
+    ...
+  ],
+  providers: [
+    EnvReceiverService,
+    ...
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+          </div>
+          <div style="text-align: left; float: right; width: 50%;">
+              <pre><code data-trim contenteditable>
+@NgModule({
+  declarations: [
+    ...
+  ],
+  imports: [
+    ...
+  ],
+  providers: [
+    ReceiverService,
+    ...
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+              </code></pre>
+            </div>
+            <div style="text-align: left; float: left; width: 100%; margin: 0;">
+                <pre style="width: 95%; padding: 0; margin: 0; margin-left: 19px;"><code data-trim contenteditable>
+@NgModule({
+  declarations: [
+    ...
+  ],
+  imports: [
+    ...
+  ],
+  providers: [
+    { provide: ReceiverService, useValue: MockReceiverService },
+    ...
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+                </code></pre>
+              </div>
+              <aside class="notes">
+                  Remove the original ReceiverService import and use the import using the barrel file from index.ts.
+              </aside>
         </section>
       </section>
 
@@ -210,33 +294,30 @@ export class AppModule { }
         <h2>Exercises Time</h2>
         <p>Set up the mock service</p>
         <p>Import in app.module.ts</p>
+        <img src="img/layout beacon positioning - step 2.png">
+        <small>Branch: workshop/step-2</small>
       </section>
 
       <section>
         <section>
           <h2>Testing</h2>
         </section>
-        <section>
-          <h2>Stubs</h2>
-          <h5>What are they?</h5>
-          <blockquote cite="https://gaboesquivel.com/blog/2014/unit-testing-mocks-stubs-and-spies/">
-            Test stubs are fake objects with pre-programmed behavior ( Simulation of behaviour from other units ), Most of times they
-            are simply returning fixed values. They are typically used for one of two reasons:
-            <ul>
-              <li>To avoid some inconvenient interface - for instance to avoid making actual requests to a server from tests.</li>
-              <li>To feed the system with known data, forcing a specific code path.</li>
-            </ul>
-          </blockquote>
-        </section>
+
         <section>
           <h2>Spies</h2>
-          <h5>What are they?</h5>
-          <blockquote cite="https://alligator.io/angular/testing-with-spies/">
-            Jasmine spies are used to track or stub functions or methods. Spies are an easy way to check if a function was called or
-            to provide a custom return value. We can use spies to test components that depend on a service and avoid actually
-            calling the service’s methods to get a value.
-          </blockquote>
+          <p>Record info</p>
+          <p>Gives fake info back</p>
+          <pre>
+            <code>
+spyOn(carBrandService, 'findAll').and.returnValue(Observable.of([
+  { name: 'Mazda', country: 'Japan' },
+  { name: 'BMW', country: 'Germany' }
+]));    
+            </code>
+          </pre>
+          <small>More info: https://github.com/ryandegruyter/ordina-angular-testing - https://ordina-jworks.github.io/angular/2017/10/04/Testing-angular-with-karma.html </small>
         </section>
+
         <section>
           <h2>receiver.service.spy.ts</h2>
           <pre><code data-trim contenteditable>
@@ -244,24 +325,40 @@ export const ReceiverServiceSpy = {
   getReceivers: jasmine.createSpy('getReceivers', MockReceiverService.getReceivers)
                         .and.callThrough(),
   //other spy methods
-};</code></pre>
+};
+          </code></pre>
         </section>
+
         <section>
           <h2>receiver.sandbox.spec.ts</h2>
           <pre><code>
 TestBed.configureTestingModule({
-  imports: [
-  ],
+  imports: [],
   providers: [
     ReceiverSandbox,
     { provide: ReceiverService, useValue: ReceiverServiceSpy },
   ]
 });
+
+it('should load beacons of receiver', inject([BeaconVisualisationSandbox], 
+  (receiverSandbox: BeaconVisualisationSandbox) => {
+    const receiverSandboxSpy = spyOn(receiverSandbox, 'getBeaconsOfReceiver');
+    receiverSandbox.getBeaconsOfReceiver('1234');
+    expect(receiverSandboxSpy).toHaveBeenCalledWith('1234');
+}));
+
+it('should load beacons of receiver', inject([BeaconVisualisationSandbox], 
+  (sandbox: BeaconVisualisationSandbox) => {
+    sandbox.getBeaconsOfReceiver('1').subscribe((beacons: Beacon[]) => {
+      expect(beacons.length).toBe(3);
+   });
+}));
           </code></pre>
           <aside class="notes">
-            Import everywhere were testing. App component,... 
+            Import everywhere were testing. App component,...
           </aside>
         </section>
+
         <section>
           <h2>tsconfig.app.json</h2>
           <p>Add to remove jasmine warning when compiling.</p>
@@ -273,7 +370,7 @@ TestBed.configureTestingModule({
           </p>
           <pre><code data-trim contenteditable>
 "exclude": [
-  ... 
+  ...
   "**/*.spec.ts",
   "**/*.spy.ts"
 ]</code></pre>
@@ -285,6 +382,8 @@ TestBed.configureTestingModule({
           <p>Set up the spy objects for the service</p>
           <p>Use spy service in ReceiverSandbox</p>
           <p>Make sure all 11 tests are working</p>
+          <img src="img/layout beacon positioning - step 3.png">
+          <small>Branch: workshop/step-3</small>
         </section>
 
 
