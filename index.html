@@ -297,6 +297,29 @@ export class AppModule { }
                   Remove the original ReceiverService import and use the import using the barrel file from index.ts.
               </aside>
         </section>
+        <section>
+          <pre><code>
+describe('ReceiverService', () => {
+  describe('Mocked', () => {
+    const ignoredProperties = ['http'];
+    it('MockReceiverService should have all public 
+        functions and properties of ReceiverService', 
+        
+        inject([ReceiverService], (service: ReceiverService) => {
+
+          Object.keys(Object.getPrototypeOf(service))
+            .concat(Object.getOwnPropertyNames(service))
+            .filter(propertyName => ignoredProperties.indexOf(propertyName) === -1)
+            .forEach(propertyName => {
+              expect(MockReceiverService[propertyName])
+                .toBeDefined(`Expected ${typeof (service[propertyName])} 
+                            MockReceiverService.${propertyName} to be defined`);
+      });
+    }));
+  }
+}
+          </code></pre>
+        </section>
       </section>
 
       <section>
@@ -335,6 +358,30 @@ export const ReceiverServiceSpy = {
                         .and.callThrough(),
   //other spy methods
 };
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code>
+describe('ReceiverService', () => {
+  describe('Mocked', () => {
+    const ignoredProperties = ['http'];
+    it('ReceiverServiceSpy should have 
+        all public functions and properties of ReceiverService', 
+        inject([ReceiverService], (service: ReceiverService) => {
+      
+          Object.keys(Object.getPrototypeOf(service))
+              .concat(Object.getOwnPropertyNames(service))
+              .filter(propertyName => ignoredProperties.indexOf(propertyName) === -1)
+              .forEach(propertyName => {
+                expect(ReceiverServiceSpy[propertyName])
+                    .toBeDefined(`Expected ${typeof (service[propertyName])} 
+                                  ReceiverServiceSpy.${propertyName} to be defined`);
+              });
+          })
+      );
+  }
+}
           </code></pre>
         </section>
 
@@ -390,7 +437,7 @@ it('should load beacons of receiver', inject([BeaconVisualisationSandbox],
           <h2>Exercises Time</h2>
           <p>Set up the spy objects for the service</p>
           <p>Use spy service in spec of ReceiverSandbox</p>
-          <p>Make sure all 11 tests are working</p>
+          <p>Make sure all 11 tests are working and add the 2 for checking if everything is mocked/spied</p>
           <img src="img/layout beacon positioning - step 3c.png">
           <small>Branch: workshop/step-3</small>
         </section>
