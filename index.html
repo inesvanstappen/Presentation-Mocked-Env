@@ -396,11 +396,11 @@ TestBed.configureTestingModule({
   ]
 });
 
-it('should load beacons of receiver', inject([BeaconVisualisationSandbox], 
-  (receiverSandbox: BeaconVisualisationSandbox) => {
-    const receiverSandboxSpy = spyOn(receiverSandbox, 'getBeaconsOfReceiver');
-    receiverSandbox.getBeaconsOfReceiver('1234');
-    expect(receiverSandboxSpy).toHaveBeenCalledWith('1234');
+it('should load beacons of receiver', inject([BeaconVisualisationSandbox],
+    (receiverSandbox: BeaconVisualisationSandbox) => {
+      ReceiverServiceSpy.getBeaconsOfReceiver.calls.reset();
+      receiverSandbox.getBeaconsOfReceiver('1234').toPromise();
+      expect(ReceiverServiceSpy.getBeaconsOfReceiver).toHaveBeenCalledWith('1234');
 }));
 
 it('should load beacons of receiver', inject([BeaconVisualisationSandbox], 
