@@ -99,7 +99,7 @@
         </section>
         <section>
           <h2>environment/environment.mock.ts</h2>
-          <pre><code data-trim contenteditable>
+          <pre><code data-trim contenteditable class="javascript">
 export const environment = {
   production: false,
   mocked: true,
@@ -116,7 +116,7 @@ export const environment = {
         </section>
         <section>
           <h2>angular.json</h2>
-          <pre><code>
+          <pre><code class="json">
 "configurations": {
   "production": {
     "fileReplacements": [
@@ -140,7 +140,7 @@ export const environment = {
         </section>
         <section>
           <h2>angular.json</h2>
-          <pre><code>
+          <pre><code class="json">
 "serve": {
   ...
   "configurations": {
@@ -151,9 +151,7 @@ export const environment = {
       "browserTarget": "temp:build:mocked"
     }
   }
-},
-
-          </code></pre>
+},</code></pre>
           <p>Run with ng serve -c=mocked</p>
         </section>
       </section>
@@ -175,19 +173,18 @@ export const environment = {
         </section>
         <section>
           <h2>receiver.service.ts</h2>
-          <pre><code>
-getReceivers(): Observable<Receiver[]> {
+          <pre><code data-trim contenteditable class="javascript">
+getReceivers(): Observable&lt;Receiver[]&gt; {
   const url = `${environment.url}/receivers`;
-  return this.http.get<Receiver[]>(url);
-}
-          </code></pre>
+  return this.http.get&lt;Receiver[]&gt;(url);
+}</code></pre>
         </section>
         <section>
           <h2>receiver.service.mock.ts</h2>
           <h5>Pretty Code</h5>
-          <pre><code data-trim contenteditable>
+          <pre><code data-trim contenteditable class="javascript">
 export const MockReceiverService = {
-  getReceivers: () => {
+  getReceivers: () =&gt; {
     const receivers: Receiver[] = [{
       id: '1',
       numberOfBeacons: 3,
@@ -206,7 +203,7 @@ export const MockReceiverService = {
         </section>
         <section>
           <h2>services/index.ts</h2>
-          <pre><code data-trim contenteditable>
+          <pre><code data-trim contenteditable class="javascript">
   export const EnvReceiverService =
     environment.mocked ?
     { provide: ReceiverService, useValue: MockReceiverService } :
@@ -219,7 +216,7 @@ export const MockReceiverService = {
             </aside>
         </section>
         <section>
-          <pre><code data-trim contenteditable>
+          <pre><code data-trim contenteditable class="javascript">
 @NgModule({
   declarations: [
     ...
@@ -240,7 +237,7 @@ export class AppModule { }
         <section>
           <h2>app.module.ts</h2>
           <div style="text-align: left; float: left; width: 50%;">
-            <pre><code data-trim contenteditable>
+            <pre><code data-trim contenteditable class="javascript">
 @NgModule({
   declarations: [
     ...
@@ -258,7 +255,7 @@ export class AppModule { }
             </code></pre>
           </div>
           <div style="text-align: left; float: right; width: 50%;">
-              <pre><code data-trim contenteditable>
+              <pre><code data-trim contenteditable class="javascript">
 @NgModule({
   declarations: [
     ...
@@ -276,7 +273,7 @@ export class AppModule { }
               </code></pre>
             </div>
             <div style="text-align: left; float: left; width: 100%; margin: 0;">
-                <pre style="width: 95%; padding: 0; margin: 0; margin-left: 19px;"><code data-trim contenteditable>
+                <pre style="width: 95%; padding: 0; margin: 0; margin-left: 19px;"><code data-trim contenteditable class="javascript">
 @NgModule({
   declarations: [
     ...
@@ -298,14 +295,14 @@ export class AppModule { }
               </aside>
         </section>
         <section>
-          <pre><code>
-describe('ReceiverService', () => {
-  describe('Mocked', () => {
+          <pre><code class="javascript">
+describe('ReceiverService', () =&gt; {
+  describe('Mocked', () =&gt; {
     const ignoredProperties = ['http'];
     it('MockReceiverService should have all public 
         functions and properties of ReceiverService', 
         
-        inject([ReceiverService], (service: ReceiverService) => {
+        inject([ReceiverService], (service: ReceiverService) =&gt; {
 
           Object.keys(Object.getPrototypeOf(service))
             .concat(Object.getOwnPropertyNames(service))
@@ -340,19 +337,19 @@ describe('ReceiverService', () => {
           <p>Record info</p>
           <p>Gives fake info back</p>
           <pre>
-            <code>
+            <code class="javascript">
 spyOn(carBrandService, 'findAll').and.returnValue(Observable.of([
   { name: 'Mazda', country: 'Japan' },
   { name: 'BMW', country: 'Germany' }
 ]));    
             </code>
           </pre>
-          <small>More info: https://github.com/ryandegruyter/ordina-angular-testing - https://ordina-jworks.github.io/angular/2017/10/04/Testing-angular-with-karma.html </small>
+          <small>More info: <p><a href="https://github.com/ryandegruyter/ordina-angular-testing">https://github.com/ryandegruyter/ordina-angular-testing</a></p><p><a href="https://ordina-jworks.github.io/angular/2017/10/04/Testing-angular-with-karma.html">https://ordina-jworks.github.io/angular/2017/10/04/Testing-angular-with-karma.html</a></p></small>
         </section>
 
         <section>
           <h2>receiver.service.spy.ts</h2>
-          <pre><code data-trim contenteditable>
+          <pre><code data-trim contenteditable class="javascript">
 export const ReceiverServiceSpy = {
   getReceivers: jasmine.createSpy('getReceivers', MockReceiverService.getReceivers)
                         .and.callThrough(),
@@ -362,13 +359,13 @@ export const ReceiverServiceSpy = {
         </section>
 
         <section>
-          <pre><code>
-describe('ReceiverService', () => {
-  describe('Mocked', () => {
+          <pre><code class="javascript">
+describe('ReceiverService', () =&gt; {
+  describe('Mocked', () =&gt; {
     const ignoredProperties = ['http'];
     it('ReceiverServiceSpy should have 
         all public functions and properties of ReceiverService', 
-        inject([ReceiverService], (service: ReceiverService) => {
+        inject([ReceiverService], (service: ReceiverService) =&gt; {
       
           Object.keys(Object.getPrototypeOf(service))
               .concat(Object.getOwnPropertyNames(service))
@@ -387,7 +384,7 @@ describe('ReceiverService', () => {
 
         <section>
           <h2>receiver.sandbox.spec.ts</h2>
-          <pre><code>
+          <pre><code class="javascript">
 TestBed.configureTestingModule({
   imports: [],
   providers: [
@@ -397,15 +394,15 @@ TestBed.configureTestingModule({
 });
 
 it('should load beacons of receiver', inject([BeaconVisualisationSandbox],
-    (receiverSandbox: BeaconVisualisationSandbox) => {
+    (receiverSandbox: BeaconVisualisationSandbox) =&gt; {
       ReceiverServiceSpy.getBeaconsOfReceiver.calls.reset();
       receiverSandbox.getBeaconsOfReceiver('1234').toPromise();
       expect(ReceiverServiceSpy.getBeaconsOfReceiver).toHaveBeenCalledWith('1234');
 }));
 
 it('should load beacons of receiver', inject([BeaconVisualisationSandbox], 
-  (sandbox: BeaconVisualisationSandbox) => {
-    sandbox.getBeaconsOfReceiver('1').subscribe((beacons: Beacon[]) => {
+  (sandbox: BeaconVisualisationSandbox) =&gt; {
+    sandbox.getBeaconsOfReceiver('1').subscribe((beacons: Beacon[]) =&gt; {
       expect(beacons.length).toBe(3);
    });
 }));
@@ -424,7 +421,7 @@ it('should load beacons of receiver', inject([BeaconVisualisationSandbox],
             src/app/services/receiver.service.spy.ts(4,17): error TS2304: Cannot find name 'jasmine'. </br>
             src/app/services/receiver.service.spy.ts(5,25): error TS2304: Cannot find name 'jasmine'.
           </p>
-          <pre><code data-trim contenteditable>
+          <pre><code data-trim contenteditable class="json">
 "exclude": [
   ...
   "**/*.spec.ts",
