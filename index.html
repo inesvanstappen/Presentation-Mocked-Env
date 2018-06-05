@@ -43,6 +43,12 @@
       </section>
 
       <section>
+        <h2>Resources</h2>
+        <a href="https://github.com/ordina-jworks/beacon-positioning">https://github.com/ordina-jworks/beacon-positioning</a>
+        <a href="https://github.com/ordina-jworks/beacon-positioning-nest">https://github.com/ordina-jworks/beacon-positioning-nest</a>
+      </section>
+
+      <section>
         <h2>Index</h2>
         <ul>
           <li>Why?</li>
@@ -70,10 +76,7 @@
 
       <section>
         <section>
-          <h2>The project: beacon-positioning</h2>
-          <p>https://github.com/ordina-jworks/beacon-positioning</p>
-        </section>
-        <section>
+            <h2>The project: beacon-positioning</h2>
           <img src="img/beacon-positioning-1.png">
         </section>
           
@@ -214,8 +217,9 @@ export const MockReceiverService = {
             <aside class="notes">
               Now we create a barrel file. This index.ts file, which is the barrel file, will be used for importing all the services.
             </aside>
-        </section>
-        <section>
+          </section>
+          <section>
+          <h2>app.module.ts</h2>
           <pre><code data-trim contenteditable class="javascript">
 @NgModule({
   declarations: [
@@ -383,7 +387,7 @@ describe('ReceiverService', () =&gt; {
         </section>
 
         <section>
-          <h2>receiver.sandbox.spec.ts</h2>
+          <h2>beacon-visualisation.sandbox.spec.ts</h2>
           <pre><code class="javascript">
 TestBed.configureTestingModule({
   imports: [],
