@@ -397,7 +397,7 @@ TestBed.configureTestingModule({
   ]
 });
 
-it('should load beacons of receiver', inject([BeaconVisualisationSandbox],
+it('should call beacons of receiver', inject([BeaconVisualisationSandbox],
     (receiverSandbox: BeaconVisualisationSandbox) =&gt; {
       ReceiverServiceSpy.getBeaconsOfReceiver.calls.reset();
       receiverSandbox.getBeaconsOfReceiver('1234').toPromise();
